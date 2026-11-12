@@ -67,14 +67,19 @@ class HealthScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Zaman Çizelgesi',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        const Expanded(
+          child: Text(
+            'Zaman Çizelgesi',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
+        const SizedBox(width: 8),
         Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 10,

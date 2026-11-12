@@ -199,26 +199,32 @@ class HealthTimelineTile extends StatelessWidget {
   Widget _buildCardHeader(bool isCurrent, bool isLocked) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              durationLabel,
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: isCompleted
-                    ? AppTheme.primary
-                    : (isCurrent
-                        ? AppTheme.secondaryCyan
-                        : const Color(0xFF94A3B8)),
-                letterSpacing: 0.5,
+        Expanded(
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              Text(
+                durationLabel,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.bold,
+                  color: isCompleted
+                      ? AppTheme.primary
+                      : (isCurrent
+                          ? AppTheme.secondaryCyan
+                          : const Color(0xFF94A3B8)),
+                  letterSpacing: 0.5,
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            _buildBadge(isCurrent, isLocked),
-          ],
+              _buildBadge(isCurrent, isLocked),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         _buildPercentPill(isCurrent, isLocked),
       ],
     );
@@ -383,10 +389,15 @@ class HealthTimelineTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'Dolaşım & Silya Rejenerasyonu',
-            style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
+          const Expanded(
+            child: Text(
+              'Dolaşım & Silya Rejenerasyonu',
+              style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
+          const SizedBox(width: 8),
           Text(
             'Hedefe $daysStr Gün Kaldı',
             style: const TextStyle(
@@ -500,24 +511,31 @@ class HealthHeaderCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            const Icon(
-              Icons.show_chart_rounded,
-              color: AppTheme.primary,
-              size: 18,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              'Toplam Onarım Fazı: Seviye $level',
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+        Expanded(
+          child: Row(
+            children: [
+              const Icon(
+                Icons.show_chart_rounded,
+                color: AppTheme.primary,
+                size: 18,
               ),
-            ),
-          ],
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  'Toplam Onarım Fazı: Seviye $level',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         Text(
           '$completed / $total Tamam',
           style: const TextStyle(
@@ -562,7 +580,7 @@ class HealthMetricCards extends StatelessWidget {
   // Akciğer kapasitesi kartı.
   Widget _buildCapacityCard(int cap) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       decoration: BoxDecoration(
         color: const Color(0xFF131D26),
         borderRadius: BorderRadius.circular(16),
@@ -574,15 +592,20 @@ class HealthMetricCards extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              Text(
-                'AKCİĞER KAPASİTESİ',
-                style: TextStyle(
-                  fontSize: 10.5,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF94A3B8),
-                  letterSpacing: 0.5,
+              Expanded(
+                child: Text(
+                  'AKCİĞER KAPASİTESİ',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF94A3B8),
+                    letterSpacing: 0.3,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              SizedBox(width: 4),
               Icon(
                 Icons.air_rounded,
                 color: AppTheme.secondaryCyan,
@@ -606,6 +629,8 @@ class HealthMetricCards extends StatelessWidget {
               fontSize: 11,
               color: Color(0xFF94A3B8),
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -615,7 +640,7 @@ class HealthMetricCards extends StatelessWidget {
   // Hücresel toksin arınma kartı.
   Widget _buildToxinCard(int coPpm) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       decoration: BoxDecoration(
         color: const Color(0xFF131D26),
         borderRadius: BorderRadius.circular(16),
@@ -627,15 +652,20 @@ class HealthMetricCards extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              Text(
-                'HÜCRESEL TOKSİN',
-                style: TextStyle(
-                  fontSize: 10.5,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF94A3B8),
-                  letterSpacing: 0.5,
+              Expanded(
+                child: Text(
+                  'HÜCRESEL TOKSİN',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF94A3B8),
+                    letterSpacing: 0.3,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              SizedBox(width: 4),
               Icon(
                 Icons.favorite_border_rounded,
                 color: AppTheme.primary,
@@ -673,6 +703,8 @@ class HealthMetricCards extends StatelessWidget {
               fontSize: 11,
               color: Color(0xFF94A3B8),
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

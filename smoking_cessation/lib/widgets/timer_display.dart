@@ -117,13 +117,17 @@ class TimerDisplay extends StatelessWidget {
             child: SizedBox(width: 7, height: 7),
           ),
           SizedBox(width: 8),
-          Text(
-            'SİGARASIZ TEMİZ HAYAT',
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primary,
-              letterSpacing: 0.6,
+          Flexible(
+            child: Text(
+              'SİGARASIZ TEMİZ HAYAT',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.primary,
+                letterSpacing: 0.5,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -275,32 +279,33 @@ class TimerDisplay extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: const [
-              Icon(
-                Icons.air_rounded,
-                size: 18,
-                color: AppTheme.secondaryCyan,
-              ),
-              SizedBox(width: 6),
-              Text(
-                'Karbonmonoksit: ',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppTheme.onSurfaceVariant,
-                ),
-              ),
-              Text(
-                '%0 Normalize',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.air_rounded,
+                  size: 18,
                   color: AppTheme.secondaryCyan,
                 ),
-              ),
-            ],
+                SizedBox(width: 6),
+                Flexible(
+                  child: Text(
+                    'Karbonmonoksit: %0 Normalize',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.secondaryCyan,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 6),
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: const [
               Icon(
                 Icons.check_circle_outline_rounded,

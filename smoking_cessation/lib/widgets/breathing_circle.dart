@@ -230,14 +230,18 @@ class NatureSoundPill extends StatelessWidget {
             size: 18,
           ),
           const SizedBox(width: 8),
-          Text(
-            isPlaying ? 'Doğa Sesi: Açık' : 'Doğa Sesi: Kapalı',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isPlaying
-                  ? AppTheme.primaryBright
-                  : AppTheme.onSurface,
+          Flexible(
+            child: Text(
+              isPlaying ? 'Doğa Sesi: Açık' : 'Doğa Sesi: Kapalı',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isPlaying
+                    ? AppTheme.primaryBright
+                    : AppTheme.onSurface,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -281,25 +285,32 @@ class BiologicalFactCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: const [
-            Icon(
-              Icons.show_chart_rounded,
-              color: AppTheme.primary,
-              size: 18,
-            ),
-            SizedBox(width: 8),
-            Text(
-              'BİYOLOJİK GERÇEK',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+        Expanded(
+          child: Row(
+            children: const [
+              Icon(
+                Icons.show_chart_rounded,
                 color: AppTheme.primary,
-                letterSpacing: 0.6,
+                size: 18,
               ),
-            ),
-          ],
+              SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  'BİYOLOJİK GERÇEK',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary,
+                    letterSpacing: 0.5,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         const Text(
           'Pik:  3  dk',
           style: TextStyle(
@@ -357,13 +368,17 @@ class CravingTimerHeader extends StatelessWidget {
               color: AppTheme.secondaryCyan,
             ),
             SizedBox(width: 6),
-            Text(
-              '5 DAKİKALIK KRİZ GERİ SAYIMI',
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.secondaryCyan,
-                letterSpacing: 0.8,
+            Flexible(
+              child: Text(
+                '5 DAKİKALIK KRİZ GERİ SAYIMI',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.secondaryCyan,
+                  letterSpacing: 0.5,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

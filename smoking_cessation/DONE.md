@@ -583,3 +583,29 @@ Bu dosya, projenin her geliştirme adımında yapılan işlemleri, oluşturulan/
   - `flutter test` → 14 test geçti (All tests passed!)
   - `flutter build web --release` → Başarıyla derlendi (✓ Built build/web)
 - **Durum:** ✅ Tamamlandı
+
+## [Hata Düzeltme] Sağlık Sayfası ve Zaman Çizelgesi Taşma (Overflow) Hatalarının Düzeltilmesi — 2026-11-12 20:35
+- **Ne yapıldı:**
+  - macOS ve dar/geniş ekranlarda sağlık sayfasındaki "AKCİĞER KAPASİTESİ" kartında meydana gelen `right overflowed by 3 pixels` hatası ve zaman çizelgesi basamaklarındaki (`HealthTimelineTile`, `HealthHeaderCard`, `HealthMetricCards`) tüm yatay taşma (RenderFlex overflow) zafiyetleri düzeltildi.
+  - Uygulamanın diğer sekmelerindeki (Sayaç, Günlük takvimi, Kriz ekranı, Ayarlar rozetleri) dar pencere taşma riskleri de taranarak `Expanded`, `Flexible`, `Wrap` ve `TextOverflow.ellipsis` ile koruma altına alındı.
+  - `test/widget_smoke_test.dart` içine 320x568'den 1200x800'e kadar 5 farklı ekran genişliğinde tüm sekmeleri ve Kriz modalını tarayan otomatik taşma testi eklendi ve 15 testin tamamı yeşil olarak doğrulandı.
+  - `flutter analyze`: 0 hata, 0 uyarı.
+  - `flutter test`: 15 test geçti.
+  - `flutter build web --release`: Sorunsuz derlendi.
+- **Dosyalar:**
+  - [lib/widgets/health_timeline_tile.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/widgets/health_timeline_tile.dart) (düzeltildi)
+  - [lib/screens/health_screen.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/screens/health_screen.dart) (düzeltildi)
+  - [lib/widgets/timer_display.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/widgets/timer_display.dart) (düzeltildi)
+  - [lib/widgets/diary_calendar.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/widgets/diary_calendar.dart) (düzeltildi)
+  - [lib/screens/diary_screen.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/screens/diary_screen.dart) (düzeltildi)
+  - [lib/widgets/stat_card.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/widgets/stat_card.dart) (düzeltildi)
+  - [lib/widgets/breathing_circle.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/widgets/breathing_circle.dart) (düzeltildi)
+  - [lib/screens/craving_screen.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/screens/craving_screen.dart) (düzeltildi)
+  - [lib/screens/onboarding_date_screen.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/screens/onboarding_date_screen.dart) (yorum satırı düzenlendi)
+  - [test/widget_smoke_test.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/test/widget_smoke_test.dart) (kapsamlı overflow testi eklendi)
+  - [DONE.md](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/DONE.md) (güncellendi)
+- **SOLID / Kural Notu:**
+  - `lib/` altında toplam 24 Dart dosyası korundu (kural: <= 25).
+  - Ekranların tümü <= 200 satır sınırının altındadır (125-192 satır arası).
+  - Tüm yorum satırları Türkçe, doğal cümle yapısında ve <= 50 karakterdir.
+- **Durum:** ✅ Tamamlandı

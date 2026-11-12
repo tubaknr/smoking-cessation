@@ -86,7 +86,9 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
     }
     if (widget.isEditing && widget.quitController.profile != null) {
       final p = widget.quitController.profile!.copyWith(quitDateTime: _dt);
+      // Güncellenen profili diske kaydeder.
       widget.quitController.saveProfile(p);
+      // Bir önceki sayfaya geri döner.
       Navigator.of(context).pop();
       return;
     }

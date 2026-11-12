@@ -329,13 +329,17 @@ class SettingsHeader extends StatelessWidget {
           children: const [
             Icon(Icons.circle, size: 7, color: AppTheme.primary),
             SizedBox(width: 6),
-            Text(
-              'CANLI REKOR & KUTLAMALAR',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primary,
-                letterSpacing: 0.8,
+            Flexible(
+              child: Text(
+                'CANLI REKOR & KUTLAMALAR',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.primary,
+                  letterSpacing: 0.5,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
@@ -494,13 +498,17 @@ class MilestoneCelebrationCard extends StatelessWidget {
         children: const [
           Icon(Icons.circle, size: 6, color: AppTheme.primary),
           SizedBox(width: 4),
-          Text(
-            'ALTIN DÖNÜM NOKTASI',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primaryBright,
-              letterSpacing: 0.5,
+          Flexible(
+            child: Text(
+              'ALTIN DÖNÜM NOKTASI',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.primaryBright,
+                letterSpacing: 0.4,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           SizedBox(width: 4),
@@ -554,23 +562,29 @@ class MilestoneCelebrationCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: const [
-            Icon(
-              Icons.autorenew_rounded,
-              size: 16,
-              color: AppTheme.secondaryCyan,
-            ),
-            SizedBox(width: 6),
-            Text(
-              'Tasarruf Edilen:',
-              style: TextStyle(
-                color: AppTheme.onSurfaceVariant,
-                fontSize: 12,
+        Expanded(
+          child: Row(
+            children: const [
+              Icon(
+                Icons.autorenew_rounded,
+                size: 16,
+                color: AppTheme.secondaryCyan,
               ),
-            ),
-          ],
+              SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  'Tasarruf Edilen:',
+                  style: TextStyle(
+                    color: AppTheme.onSurfaceVariant,
+                    fontSize: 12,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         Text(
           savedAmount,
           style: const TextStyle(
@@ -624,27 +638,34 @@ class RecoveryBadgesSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'İyileşme Rozetleri',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                'İyileşme Rozetleri',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            SizedBox(height: 2),
-            Text(
-              'Biyolojik yenilenme yolculuğun',
-              style: TextStyle(
-                fontSize: 11.5,
-                color: AppTheme.onSurfaceVariant,
+              SizedBox(height: 2),
+              Text(
+                'Biyolojik yenilenme yolculuğun',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: AppTheme.onSurfaceVariant,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         _buildBadgePill(),
       ],
     );

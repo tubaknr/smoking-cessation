@@ -24,6 +24,7 @@ class DiaryCalendar extends StatelessWidget {
   final DateTime currentMonth;
   final Map<String, DailyLog> logs;
   final ValueChanged<DateTime> onDayTapped;
+  // pm almaz geriye bir şey dönmez fcn. 
   final VoidCallback onPreviousMonth;
   final VoidCallback onNextMonth;
 
@@ -48,6 +49,7 @@ class DiaryCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // const: performans optimizasyonu
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF131D26),
@@ -73,28 +75,37 @@ class DiaryCalendar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: const [
-            Icon(
-              Icons.calendar_month_rounded,
-              color: AppTheme.secondaryCyan,
-              size: 20,
-            ),
-            SizedBox(width: 8),
-            Text(
-              'Takvim & Zincir Takibi',
-              style: TextStyle(
-                fontSize: 14.5,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        Expanded(
+          child: Row(
+            children: const [
+              Icon(
+                Icons.calendar_month_rounded,
+                color: AppTheme.secondaryCyan,
+                size: 20,
               ),
-            ),
-          ],
+              SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  'Takvim & Zincir Takibi',
+                  style: TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
               icon: const Icon(
+                // takvim sol oku 
                 Icons.chevron_left_rounded,
                 size: 20,
                 color: Colors.white70,
@@ -115,6 +126,7 @@ class DiaryCalendar extends StatelessWidget {
             const SizedBox(width: 4),
             IconButton(
               icon: const Icon(
+                // takvim sağ oku
                 Icons.chevron_right_rounded,
                 size: 20,
                 color: Colors.white70,
@@ -152,21 +164,28 @@ class DiaryCalendar extends StatelessWidget {
   Widget _buildDaysGrid() {
     final year = currentMonth.year;
     final month = currentMonth.month;
+    // O ayın ilk gününün tarih nesnesi.
     final firstDay = DateTime(year, month, 1);
+    // Ayın kaç gün çektiğini bulur.
     final daysInMonth = DateTime(year, month + 1, 0).day;
+    // Ayın ilk gününden önceki boşluk adedi.
     final leadingBlanks = firstDay.weekday - 1;
 
+    // Toplam kutu sayısını hesaplar.
     final totalCells = leadingBlanks + daysInMonth;
     final rowCount = (totalCells / 7).ceil();
 
     return Column(
+      // Satır sayısı kadar döngü kurar.
       children: List.generate(rowCount, (rowIndex) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: List.generate(7, (colIndex) {
+              // Kutunun tablodaki sırasını bulur.
               final cellIndex = (rowIndex * 7) + colIndex;
+              // Kutuya denk gelen gün numarasını bulur.
               final dayNum = cellIndex - leadingBlanks + 1;
 
               if (dayNum < 1 || dayNum > daysInMonth) {
@@ -249,8 +268,10 @@ class DiaryCalendar extends StatelessWidget {
   }
 
   Widget _buildLegend() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Wrap(
+      alignment: WrapAlignment.spaceAround,
+      spacing: 10,
+      runSpacing: 6,
       children: [
         _buildLegendItem('Temiz / Başarılı', const Color(0xFF34D399)),
         _buildLegendItem('Zorlanılan Gün', const Color(0xFFFBBF24)),
@@ -382,24 +403,31 @@ class _DiaryCheckInCardState extends State<DiaryCheckInCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: const [
-            Icon(
-              Icons.edit_note_rounded,
-              color: AppTheme.primary,
-              size: 20,
-            ),
-            SizedBox(width: 8),
-            Text(
-              'Bugün sigara içtin mi?',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        Expanded(
+          child: Row(
+            children: const [
+              Icon(
+                Icons.edit_note_rounded,
+                color: AppTheme.primary,
+                size: 20,
               ),
-            ),
-          ],
+              SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  'Bugün sigara içtin mi?',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
         Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 10,
@@ -454,27 +482,34 @@ class _DiaryCheckInCardState extends State<DiaryCheckInCard> {
               color: const Color(0xFF022C22),
               size: 24,
             ),
-            const SizedBox(width: 10),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  isClean ? 'Bugün İçmedim' : 'Bugün İçildi',
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF022C22),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isClean ? 'Bugün İçmedim' : 'Bugün İçildi',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF022C22),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Text(
-                  isClean ? '(Temizim)' : '(Kayıt Alındı)',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF065F46),
+                  Text(
+                    isClean ? '(Temizim)' : '(Kayıt Alındı)',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF065F46),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -489,15 +524,20 @@ class _DiaryCheckInCardState extends State<DiaryCheckInCard> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'ÇEKİM / KRİZ YOĞUNLUĞU',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF94A3B8),
-                letterSpacing: 0.5,
+            const Expanded(
+              child: Text(
+                'ÇEKİM / KRİZ YOĞUNLUĞU',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF94A3B8),
+                  letterSpacing: 0.5,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
+            const SizedBox(width: 8),
             Text(
               _getLevelText(_cravingLevel),
               style: const TextStyle(

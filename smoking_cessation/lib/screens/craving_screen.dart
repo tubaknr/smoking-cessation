@@ -163,12 +163,16 @@ class _CravingScreenState extends State<CravingScreen> {
             Icon(Icons.check_circle_outline_rounded,
                 color: Color(0xFF022C22), size: 22),
             SizedBox(width: 8),
-            Text(
-              'Krizi Yendim!',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF022C22),
+            Flexible(
+              child: Text(
+                'Krizi Yendim!',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF022C22),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

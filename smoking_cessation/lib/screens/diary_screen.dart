@@ -122,15 +122,20 @@ class _DiaryScreenState extends State<DiaryScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'GÜN $days • TEMİZ CİĞERLER',
-              style: const TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primary,
-                letterSpacing: 0.6,
+            Expanded(
+              child: Text(
+                'GÜN $days • TEMİZ CİĞERLER',
+                style: const TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.primary,
+                  letterSpacing: 0.6,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
+            const SizedBox(width: 8),
             Text(
               monthStr,
               style: const TextStyle(
