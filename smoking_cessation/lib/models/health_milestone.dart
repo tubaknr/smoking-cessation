@@ -25,6 +25,7 @@ class HealthMilestone {
   });
 
   // OCP: Geriye dönük uyumlu varsayılan liste.
+  // kullanılmaz
   static const List<HealthMilestone> defaultMilestones = [
     HealthMilestone(
       id: '20_min',
@@ -64,6 +65,7 @@ class HealthMilestone {
   ];
 
   // OCP: 8 kademeli zengin zaman çizelgesi listesi.
+  // KULLANILIR
   static const List<HealthMilestone> timelineMilestones = [
     HealthMilestone(
       id: '20_min',

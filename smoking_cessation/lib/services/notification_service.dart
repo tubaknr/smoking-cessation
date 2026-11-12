@@ -1,5 +1,6 @@
 // ========================================
-// DOSYA: notification_service.dart
+// KULLANILMIYOR !!!  
+//DOSYA: notification_service.dart
 // NE İŞE YARAR: Yerel bildirim ve kutlama
 // planlamasını yönetir.
 // NASIL ÇALIŞIR: flutter_local_notifications

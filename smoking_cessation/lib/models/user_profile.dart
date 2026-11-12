@@ -82,6 +82,7 @@ class UserProfile {
 }
 
 // SRP: Uygulama ayarları verisini tutar.
+// KULLANILMIYOR - İPTAL EDİLDİ 
 class AppSettings {
   final bool notificationsEnabled;
   final int reminderHour;

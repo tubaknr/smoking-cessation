@@ -38,7 +38,9 @@ class DailyLog {
     final clampedLevel = rawLevel?.clamp(1, 5);
 
     final rawNote = json['note'] as String?;
+    // not 200 karankter kuralından kısa mı uzun mu
     final isLong = (rawNote?.length ?? 0) > 200;
+    // uzunsa kısalt. ilk 200ü alır
     final truncatedNote =
         isLong ? rawNote!.substring(0, 200) : rawNote;
 
@@ -50,6 +52,8 @@ class DailyLog {
     );
   }
 
+
+// COPYWITH -- değiştirmek istediğimiz kısmı pm vererek değiştirmeye yarar 
   // Günlük kaydı klonlayarak günceller.
   DailyLog copyWith({
     String? date,

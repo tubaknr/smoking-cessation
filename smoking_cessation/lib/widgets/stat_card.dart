@@ -134,7 +134,7 @@ class CrisisSectionCard extends StatelessWidget {
           ),
           TextSpan(
             text:
-                ' sürer ve sonra söner.\\n'
+                ' sürer ve sonra söner.\n'
                 'Derin nefes al ve panik butonuna bas.',
           ),
         ],
