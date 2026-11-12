@@ -4,7 +4,8 @@
 // 4-7-8 nefes fazları ve sesi yönetir.
 // NASIL ÇALIŞIR: Timer ile 19 saniyelik
 // döngüde fazları ve geri sayımı belirler.
-// SOLID: SRP - Kriz anı egzersizi durumunu tutar.
+// SOLID: SRP - Kriz anı egzersizi durumunu
+// tutar.
 // ========================================
 
 import 'dart:async';
@@ -12,16 +13,20 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-// 4-7-8 nefes döngüsü adımları (19 saniye)
+// Parasempatik sinir sistemini yatıştıran
+// 4-7-8 nefes döngüsünün evrelerini tanımlar.
 enum BreathingPhase {
-  inhale, // 0..4 saniye (Nefes Al)
-  hold,   // 4..11 saniye (Tut)
-  exhale, // 11..19 saniye (Nefes Ver)
+  inhale,
+  hold,
+  exhale,
 }
 
-// SRP: Canım çekti egzersizini yönetir.
+// Ani sigara krizlerinde 5 dakikalık geri
+// sayımı
+// ve ritmik nefes animasyonunu yöneten
+// denetleyicidir.
 class CravingController extends ChangeNotifier {
-  static const int totalSessionSeconds = 300; // 5 dk
+  static const int totalSessionSeconds = 300;
 
   static const List<String> quotes = [
     'Bu istek sadece geçici bir dalga. Birazdan dinecek.',
@@ -56,18 +61,21 @@ class CravingController extends ChangeNotifier {
   bool get isNatureSoundPlaying => _isNatureSoundPlaying;
   String get currentQuote => _currentQuote;
 
-  // 19 saniyelik 4-7-8 döngü saniyesi (0..18)
+  // On dokuz saniyelik nefes döngüsünün hangi
+  // saniyesinde olunduğunu modüler hesapla döner.
   int get cycleSecond =>
       (totalSessionSeconds - _remainingSeconds) % 19;
 
-  // Aktif nefes fazı
+  // Anlık saniyeye karşılık gelen nefes fazını
+  // (Nefes Al, Tut veya Nefes Ver) belirler.
   BreathingPhase get currentPhase {
     if (cycleSecond < 4) return BreathingPhase.inhale;
     if (cycleSecond < 11) return BreathingPhase.hold;
     return BreathingPhase.exhale;
   }
 
-  // Faz başlığı
+  // Ekranda kullanıcıya gösterilecek olan
+  // aktif nefes evresi Türkçe başlık metnidir.
   String get phaseTitle {
     switch (currentPhase) {
       case BreathingPhase.inhale:
@@ -79,7 +87,9 @@ class CravingController extends ChangeNotifier {
     }
   }
 
-  // Mevcut fazın kalan saniyesi
+  // İçinde bulunulan nefes evresinin bitmesine
+  // kalan saniyeyi geri sayım kutusu için
+  // hesaplar.
   int get phaseCountdown {
     final sec = cycleSecond;
     if (sec < 4) return 4 - sec;
@@ -87,7 +97,9 @@ class CravingController extends ChangeNotifier {
     return 19 - sec;
   }
 
-  // Nefes dairesi büyüme oranı (0.0..1.0)
+  // Nefes dairesinin ekranda pürüzsüzce büyüyüp
+  // küçülmesi için sıfır ile bir arası oran
+  // üretir.
   double get phaseProgress {
     final sec = cycleSecond;
     if (sec < 4) {
@@ -99,14 +111,17 @@ class CravingController extends ChangeNotifier {
     }
   }
 
-  // Doğa sesi durumunu değiştirir.
+  // Rahatlatıcı doğa sesi oynatma durumunu açıp
+  // kapatır ve platform ses köprüsünü günceller.
   void toggleNatureSound() {
     _isNatureSoundPlaying = !_isNatureSoundPlaying;
     _syncWebAudio();
     notifyListeners();
   }
 
-  // Web ve sistem ses komutunu senkronize eder.
+  // Web ve mobil ortamlarda ses komutunu sistem
+  // açıklamasıyla senkronize eder, hataları
+  // yutar.
   void _syncWebAudio() {
     try {
       SystemChrome.setApplicationSwitcherDescription(
@@ -119,7 +134,9 @@ class CravingController extends ChangeNotifier {
     } catch (_) {}
   }
 
-  // Seansı başlatır veya yeniden başlatır.
+  // Beş dakikalık kriz seansını sıfırlar,
+  // rastgele
+  // bir motivasyon sözü seçer ve sayacı başlatır.
   void startSession() {
     _remainingSeconds = totalSessionSeconds;
     _isActive = true;
@@ -129,7 +146,9 @@ class CravingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Zamanlayıcıyı çalıştırır.
+  // Saniyede bir kalan süreyi düşüren ve süre
+  // dolduğunda seansı başarıyla tamamlayan
+  // motordur.
   void _startTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -143,7 +162,10 @@ class CravingController extends ChangeNotifier {
     });
   }
 
-  // Seansı başarıyla tamamlar.
+  // Kullanıcı beş dakikayı tamamladığında veya
+  // krizi
+  // yendim butonuna bastığında başarı bayrağını
+  // açar.
   void completeSession() {
     _timer?.cancel();
     _isActive = false;
@@ -155,7 +177,9 @@ class CravingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Seansı durdurur.
+  // Kullanıcı sayfadan çıktığında veya iptal
+  // ettiğinde
+  // sayacı ve çalan doğa sesini güvenle durdurur.
   void stopSession() {
     _timer?.cancel();
     _isActive = false;
@@ -166,7 +190,9 @@ class CravingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Rastgele yeni bir motivasyon sözü seçer.
+  // Kullanıcı "Yeni Söz" butonuna bastığında
+  // listeden
+  // farklı bir psikolojik telkin sözü çeker.
   void nextQuote() {
     _pickRandomQuote();
     notifyListeners();

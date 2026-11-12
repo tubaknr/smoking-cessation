@@ -17,7 +17,9 @@ import 'health_screen.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
 
-// SRP: 4 sekmeli alt gezinme kabuk ekranı.
+// Dört ana sekme arasında gezinmeyi sağlayan
+// ve sekmelerin durumunu koruyan kabuk
+// ekrandır.
 class HomeShellScreen extends StatefulWidget {
   final QuitController quitController;
 
@@ -33,7 +35,6 @@ class HomeShellScreen extends StatefulWidget {
 class _HomeShellScreenState extends State<HomeShellScreen> {
   int _currentIndex = 0;
 
-  // Sekme ekranları listesi
   late final List<Widget> _screens = [
     HomeScreen(quitController: widget.quitController),
     HealthScreen(quitController: widget.quitController),
@@ -41,12 +42,17 @@ class _HomeShellScreenState extends State<HomeShellScreen> {
     SettingsScreen(quitController: widget.quitController),
   ];
 
+  // Üst çubuktaki acil Kriz butonuna basıldığında
+  // tam ekran kriz müdahale modülünü açar.
   void _openCravingModal() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const CravingScreen()),
     );
   }
 
+  // Sayfa yapısını, üst çubuğu ve seçili sekmenin
+  // içeriğini IndexedStack ile ekranda
+  // görüntüler.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +66,10 @@ class _HomeShellScreenState extends State<HomeShellScreen> {
     );
   }
 
+  // Uygulama başlığını ve her sekmeden
+  // erişilebilen
+  // acil SOS kriz butonunu barındıran üst
+  // çubuktur.
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: const Text('Lumina Recovery', style: AppTheme.headlineMedium),
@@ -87,6 +97,9 @@ class _HomeShellScreenState extends State<HomeShellScreen> {
     );
   }
 
+  // Kullanıcının sekmeler arasında dokunarak
+  // geçiş yapmasını sağlayan alt gezinme
+  // çubuğudur.
   Widget _buildBottomNav() {
     return NavigationBar(
       backgroundColor: AppTheme.surfaceLowest,

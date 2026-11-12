@@ -12,7 +12,8 @@ import '../features/diary/diary_controller.dart';
 import '../models/daily_log.dart';
 import '../theme/app_theme.dart';
 
-// SRP: Tek güne ait kayıt formu.
+// Takvimden seçilen belirli bir günün durumunu,
+// kriz derecesini ve notunu düzenleyen formdur.
 class DiaryEntryScreen extends StatefulWidget {
   final DiaryController diaryController;
   final DateTime date;
@@ -49,6 +50,9 @@ class _DiaryEntryScreenState extends State<DiaryEntryScreen> {
     super.dispose();
   }
 
+  // Girilen durumu ve notu DailyLog nesnesine
+  // çevirerek denetleyici üzerinden diske
+  // kaydeder.
   Future<void> _save() async {
     final note = _noteCtrl.text.trim();
     final log = DailyLog(
@@ -61,6 +65,8 @@ class _DiaryEntryScreenState extends State<DiaryEntryScreen> {
     if (mounted) Navigator.of(context).pop();
   }
 
+  // Form alanlarını, silme butonunu ve kaydet
+  // tuşunu barındıran sayfa yapısını kurar.
   @override
   Widget build(BuildContext context) {
     final d = DateKey.format(widget.date);
@@ -71,8 +77,7 @@ class _DiaryEntryScreenState extends State<DiaryEntryScreen> {
         actions: [
           if (_hasExisting)
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded,
-                  color: AppTheme.dangerSos),
+              icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.dangerSos),
               onPressed: () async {
                 await widget.diaryController.deleteLog(d);
                 if (context.mounted) Navigator.of(context).pop();
@@ -97,19 +102,20 @@ class _DiaryEntryScreenState extends State<DiaryEntryScreen> {
     );
   }
 
+  // Günün içilmedi veya içildi olarak
+  // işaretlenmesini sağlayan ikili buton
+  // bloğudur.
   Widget _buildStatusSection() => _card(
         'GÜNÜN DURUMU',
-        Row(
-          children: [
-            Expanded(child: _chip('İçmedim', _smokeFree, AppTheme.primary,
-                () => setState(() => _smokeFree = true))),
-            const SizedBox(width: 12),
-            Expanded(child: _chip('İçtim', !_smokeFree, AppTheme.dangerSos,
-                () => setState(() => _smokeFree = false))),
-          ],
-        ),
+        Row(children: [
+          Expanded(child: _chip('İçmedim', _smokeFree, AppTheme.primary, () => setState(() => _smokeFree = true))),
+          const SizedBox(width: 12),
+          Expanded(child: _chip('İçtim', !_smokeFree, AppTheme.dangerSos, () => setState(() => _smokeFree = false))),
+        ]),
       );
 
+  // Yaşanan krizin 1 ile 5 arasındaki şiddetini
+  // seçmeyi sağlayan dairesel sayı butonlarıdır.
   Widget _buildCravingSection() => _card(
         'KRİZ SEVİYESİ (1-5)',
         Row(
@@ -121,78 +127,61 @@ class _DiaryEntryScreenState extends State<DiaryEntryScreen> {
               onTap: () => setState(() => _craving = sel ? null : lvl),
               child: CircleAvatar(
                 radius: 18,
-                backgroundColor:
-                    sel ? AppTheme.warningAmber : AppTheme.surfaceContainer,
-                child: Text('$lvl',
-                    style: TextStyle(
-                        color:
-                            sel ? AppTheme.surfaceLowest : AppTheme.onSurface,
-                        fontWeight: FontWeight.bold)),
+                backgroundColor: sel ? AppTheme.warningAmber : AppTheme.surfaceContainer,
+                child: Text('$lvl', style: TextStyle(
+                  color: sel ? AppTheme.surfaceLowest : AppTheme.onSurface, fontWeight: FontWeight.bold,
+                )),
               ),
             );
           }),
         ),
       );
 
+  // Günün tetikleyicilerini veya kriz notlarını
+  // en fazla 200 karakter olarak alan metin
+  // kutusudur.
   Widget _buildNoteSection() => _card(
         'GÜNLÜK NOT (MAX 200 KRK)',
         TextField(
-          controller: _noteCtrl,
-          maxLength: 200,
-          maxLines: 2,
-          decoration: const InputDecoration(
-            hintText: 'Zorlandığın anları not al...',
-            border: OutlineInputBorder(),
-          ),
+          controller: _noteCtrl, maxLength: 200, maxLines: 2,
+          decoration: const InputDecoration(hintText: 'Zorlandığın anları not al...', border: OutlineInputBorder()),
         ),
       );
 
   Widget _buildSaveButton() => ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppTheme.primary,
-          foregroundColor: AppTheme.surfaceLowest,
+          backgroundColor: AppTheme.primary, foregroundColor: AppTheme.surfaceLowest,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         ),
         onPressed: _save,
-        child: const Text('Kaydet',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: const Text('Kaydet', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       );
 
   Widget _card(String title, Widget content) => Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppTheme.surfaceLow,
-          borderRadius: BorderRadius.circular(16),
+          color: AppTheme.surfaceLow, borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppTheme.outline),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: AppTheme.labelCaps),
-            const SizedBox(height: 10),
-            content,
-          ],
-        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(title, style: AppTheme.labelCaps),
+          const SizedBox(height: 10),
+          content,
+        ]),
       );
 
-  Widget _chip(String label, bool sel, Color color, VoidCallback onTap) =>
-      GestureDetector(
+  Widget _chip(String label, bool sel, Color color, VoidCallback onTap) => GestureDetector(
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: sel ? color.withValues(alpha: 0.2) : AppTheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                color: sel ? color : AppTheme.outline, width: sel ? 2 : 1),
+            border: Border.all(color: sel ? color : AppTheme.outline, width: sel ? 2 : 1),
           ),
           child: Center(
-            child: Text(label,
-                style: TextStyle(
-                    color: sel ? color : AppTheme.onSurfaceVariant,
-                    fontWeight: FontWeight.bold)),
+            child: Text(label, style: TextStyle(color: sel ? color : AppTheme.onSurfaceVariant, fontWeight: FontWeight.bold)),
           ),
         ),
       );

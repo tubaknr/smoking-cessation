@@ -2,7 +2,8 @@
 // DOSYA: onboarding_cost_screen.dart
 // NE İŞE YARAR: Tüketim ve maliyet formunu
 // alıp profili oluşturur.
-// NASIL ÇALIŞIR: Girdileri doğrular ve kaydeder.
+// NASIL ÇALIŞIR: Girdileri doğrular ve
+// kaydeder.
 // SOLID: SRP - Sadece maliyet formu görevi.
 // ========================================
 
@@ -12,7 +13,10 @@ import '../models/user_profile.dart';
 import '../theme/app_theme.dart';
 import 'home_shell_screen.dart';
 
-// SRP: Maliyet ve tüketim formu ekranı.
+// Günlük tüketilen sigara adedi ve paket
+// ücretini
+// alarak tasarruf profilini oluşturan form
+// ekranıdır.
 class OnboardingCostScreen extends StatefulWidget {
   final QuitController quitController;
   final DateTime quitDateTime;
@@ -51,52 +55,51 @@ class _OnboardingCostScreenState extends State<OnboardingCostScreen> {
     super.dispose();
   }
 
+  // Girilen fiyat ve adede göre kullanıcının bir
+  // yılda biriktireceği tahmini TL tasarrufudur.
   double get _savings {
     final pr = double.tryParse(_price.text) ?? 100.0;
     final pk = int.tryParse(_pack.text) ?? 20;
     return pk > 0 ? (365.0 * _cigs * (pr / pk)) : 0.0;
   }
 
+  // Girdileri doğrular; geçerliyse profili diske
+  // kaydeder ve kullanıcıyı ana sayfaya
+  // yönlendirir.
   void _save() async {
     final pr = double.tryParse(_price.text);
     final pk = int.tryParse(_pack.text);
     if (pr == null || pr <= 0 || pr > 10000) {
-      setState(() => _error = 'Geçerli paket fiyatı giriniz.');
-      return;
+      setState(() => _error = 'Geçerli paket fiyatı giriniz.'); return;
     }
     if (pk == null || pk < 1 || pk > 50) {
-      setState(() => _error = 'Paketteki adet 1-50 arası olmalıdır.');
-      return;
+      setState(() => _error = 'Paketteki adet 1-50 arası olmalıdır.'); return;
     }
     final p = UserProfile(
       quitDateTime: widget.quitDateTime,
       cigarettesPerDay: _cigs.round().clamp(1, 100),
-      packPrice: pr,
-      cigarettesPerPack: pk,
+      packPrice: pr, cigarettesPerPack: pk,
     );
-    try {
-      await widget.quitController.saveProfile(p);
-    } catch (_) {}
+    try { await widget.quitController.saveProfile(p); } catch (_) {}
     if (!mounted) return;
     if (widget.isEditing) {
       Navigator.of(context).pop();
     } else {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => HomeShellScreen(quitController: widget.quitController),
-        ),
+        MaterialPageRoute(builder: (_) => HomeShellScreen(quitController: widget.quitController)),
         (r) => false,
       );
     }
   }
 
+  // Tüketim ayar kartını, yıllık birikim kutusunu
+  // ve başlatma butonunu içeren sayfa düzenini
+  // kurar.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.surfaceLowest,
-      appBar: AppBar(
-        title: Text(widget.isEditing ? 'Maliyeti Düzenle' : 'Alışkanlık'),
-      ),
+      appBar: AppBar(title: Text(widget.isEditing ? 'Maliyeti Düzenle' : 'Alışkanlık')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
@@ -116,8 +119,7 @@ class _OnboardingCostScreenState extends State<OnboardingCostScreen> {
             const SizedBox(height: 24),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-                foregroundColor: AppTheme.surfaceLowest,
+                backgroundColor: AppTheme.primary, foregroundColor: AppTheme.surfaceLowest,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
               ),
@@ -131,6 +133,9 @@ class _OnboardingCostScreenState extends State<OnboardingCostScreen> {
     );
   }
 
+  // Kullanıcıya bir yılda kurtaracağı tahmini
+  // parayı canlı gösteren yeşil önizleme
+  // kutusudur.
   Widget _buildSavingsTile() => Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -138,15 +143,14 @@ class _OnboardingCostScreenState extends State<OnboardingCostScreen> {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppTheme.outlineActive),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Yıllık Tasarruf:', style: AppTheme.bodyLarge),
-            Text('${_savings.toStringAsFixed(0)} ₺', style: AppTheme.labelMetric),
-          ],
-        ),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          const Text('Yıllık Tasarruf:', style: AppTheme.bodyLarge),
+          Text('${_savings.toStringAsFixed(0)} ₺', style: AppTheme.labelMetric),
+        ]),
       );
 
+  // Günlük sigara adedi slider'ını ve paket
+  // ücreti metin alanlarını barındıran karttır.
   Widget _buildCard() => Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -156,43 +160,32 @@ class _OnboardingCostScreenState extends State<OnboardingCostScreen> {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Günlük Tüketim', style: AppTheme.titleSmall),
-                Text('${_cigs.round()} adet',
-                    style: const TextStyle(
-                        color: AppTheme.primary, fontWeight: FontWeight.bold)),
-              ],
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              const Text('Günlük Tüketim', style: AppTheme.titleSmall),
+              Text('${_cigs.round()} adet',
+                  style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold)),
+            ]),
             Slider(
-              value: _cigs,
-              min: 1,
-              max: 60,
-              activeColor: AppTheme.primary,
+              value: _cigs, min: 1, max: 60, activeColor: AppTheme.primary,
               onChanged: (v) => setState(() => _cigs = v),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _price,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Paket (₺)'),
-                    onChanged: (_) => setState(() {}),
-                  ),
+            Row(children: [
+              Expanded(
+                child: TextField(
+                  controller: _price, keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Paket (₺)'),
+                  onChanged: (_) => setState(() {}),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: TextField(
-                    controller: _pack,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Adet/Paket'),
-                    onChanged: (_) => setState(() {}),
-                  ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TextField(
+                  controller: _pack, keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Adet/Paket'),
+                  onChanged: (_) => setState(() {}),
                 ),
-              ],
-            ),
+              ),
+            ]),
           ],
         ),
       );

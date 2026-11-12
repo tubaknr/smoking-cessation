@@ -4,7 +4,8 @@
 // ve seri istatistik bloklarını sunar.
 // NASIL ÇALIŞIR: Gün, durum, kriz seviyesi ve
 // not bilgilerini interaktif olarak yönetir.
-// SOLID: SRP - Günlük ekranı görsel bileşenleri.
+// SOLID: SRP - Günlük ekranı görsel
+// bileşenleri.
 // ========================================
 
 import 'package:flutter/material.dart';
@@ -12,7 +13,13 @@ import '../features/diary/diary_controller.dart';
 import '../models/daily_log.dart';
 import '../theme/app_theme.dart';
 
-// SRP: Paket bağımlılığı olmayan aylık takvim.
+// Paket bağımlılığı olmayan saf Dart takvimi.
+// Aylık temiz/içildi günleri ızgarada
+// sunmak.
+// Ayın ilk gününü ve toplam günleri
+// hesaplar.
+// Harici takvim bağımlılık yükünü
+// sıfırlamak.
 class DiaryCalendar extends StatelessWidget {
   final DateTime currentMonth;
   final Map<String, DailyLog> logs;
@@ -276,7 +283,13 @@ class DiaryCalendar extends StatelessWidget {
   }
 }
 
-// SRP: Günlük durum hızlı kayıt kartı.
+// Günlük durum tek dokunuş hızlı kayıt kartı.
+// Bugünün içmedim/içtim kaydını hızla
+// almak.
+// Checkbox, 1-5 kriz seçici ve not
+// girdisiyle.
+// Form sayfasına gitmeden hızlı kayıt
+// sunmak.
 class DiaryCheckInCard extends StatefulWidget {
   final DiaryController diaryCtrl;
 
@@ -618,7 +631,14 @@ class _DiaryCheckInCardState extends State<DiaryCheckInCard> {
   }
 }
 
-// SRP: Seri ve tetikleyici ikili alt kartı.
+// Kesintisiz seri (streak) ve tetikleyici
+// kartı.
+// Başarı serisini ve en sık kriz anını
+// sunmak.
+// Alev ikonu, gün serisi ve kahve notunu
+// çizer.
+// Davranışsal farkındalık ve motivasyon
+// vermek.
 class DiaryStatCards extends StatelessWidget {
   final int streak;
 

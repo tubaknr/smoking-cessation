@@ -11,7 +11,13 @@ import 'package:flutter/material.dart';
 import '../features/craving/craving_controller.dart';
 import '../theme/app_theme.dart';
 
-// SRP: Animasyonlu 4-7-8 nefes dairesi.
+// 4-7-8 ritmik nefes animasyon dairesi.
+// Görsel rehberlikle nefes kontrolü
+// sağlamak.
+// AnimatedScale ile 0.88..1.12 ölçeğinde
+// genişler.
+// Kriz ekranının sakinleştirici odak
+// noktası.
 class BreathingCircle extends StatelessWidget {
   final double progress;
   final String phaseTitle;
@@ -161,7 +167,14 @@ class BreathingCircle extends StatelessWidget {
   }
 }
 
-// SRP: Doğa sesi açıp kapama hap butonu.
+// Rahatlatıcı doğa sesi açma/kapatma hap
+// butonu.
+// Kullanıcıya işitsel beyaz gürültü
+// desteği.
+// İkon, metin ve yeşil kapsül çerçeveyle
+// çizer.
+// Krize çok duyulu (görsel+işitsel)
+// müdahale.
 class NatureSoundPill extends StatelessWidget {
   final bool isPlaying;
   final VoidCallback onToggle;
@@ -233,7 +246,13 @@ class NatureSoundPill extends StatelessWidget {
   }
 }
 
-// SRP: Biyolojik kriz gerçeği kartı.
+// Biyolojik kriz gerçeği psikolojik telkin
+// kartı.
+// İsteğin 3-5 dk süreceğini hatırlatmak.
+// Grafik ikonu, pik süresi ve metin
+// kutusu.
+// Krizin geçici olduğunu bilimsel olarak
+// anlatmak.
 class BiologicalFactCard extends StatelessWidget {
   const BiologicalFactCard({super.key});
 
@@ -307,7 +326,13 @@ class BiologicalFactCard extends StatelessWidget {
   }
 }
 
-// SRP: 5 dakikalık dijital kriz geri sayımı.
+// 5 dakikalık dijital kriz geri sayım
+// göstergesi.
+// Kalan süreyi büyük dijital formatta
+// sunmak.
+// MM:SS formatında tabular büyük fontla
+// çizer.
+// Kriz seansının akışını net göstermek.
 class CravingTimerHeader extends StatelessWidget {
   final int remainingSeconds;
 

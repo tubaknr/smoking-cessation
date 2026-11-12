@@ -13,7 +13,9 @@ import '../main.dart';
 import '../theme/app_theme.dart';
 import '../widgets/breathing_circle.dart';
 
-// SRP: Canım çekti kriz müdahale ekranı.
+// Ani sigara krizlerinde 5 dakikalık geri sayım
+// ve 4-7-8 nefes egzersizi sunan panik
+// ekranıdır.
 class CravingScreen extends StatefulWidget {
   const CravingScreen({super.key});
 
@@ -24,6 +26,8 @@ class CravingScreen extends StatefulWidget {
 class _CravingScreenState extends State<CravingScreen> {
   CravingController? _controller;
 
+  // Ekran ilk açıldığında kriz seansını otomatik
+  // başlatır ve rastgele bir telkin sözü seçer.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -33,11 +37,17 @@ class _CravingScreenState extends State<CravingScreen> {
     }
   }
 
+  // Kullanıcı çarpı butonuna bastığında kriz
+  // sayacını durdurur ve modal pencereyi kapatır.
   void _onClose() {
     _controller?.stopSession();
     Navigator.of(context).pop();
   }
 
+  // CravingController'ı dinleyerek nefes
+  // dairesini,
+  // kalan süreyi ve motivasyon sözlerini
+  // günceller.
   @override
   Widget build(BuildContext context) {
     final ctrl = _controller ?? AppScope.of(context).cravingController;
@@ -48,10 +58,7 @@ class _CravingScreenState extends State<CravingScreen> {
         listenable: ctrl,
         builder: (context, _) => SafeArea(
           child: ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             children: _buildContent(ctrl),
           ),
         ),
@@ -59,14 +66,13 @@ class _CravingScreenState extends State<CravingScreen> {
     );
   }
 
-  // Sayfa içerik widget listesi.
+  // Kriz ekranının dikey sıradaki başlık, sayaç,
+  // nefes dairesi, ses ve zafer butonunu dizer.
   List<Widget> _buildContent(CravingController ctrl) {
     return [
       _buildTopHeader(),
       const SizedBox(height: 20),
-      CravingTimerHeader(
-        remainingSeconds: ctrl.remainingSeconds,
-      ),
+      CravingTimerHeader(remainingSeconds: ctrl.remainingSeconds),
       const SizedBox(height: 16),
       BreathingCircle(
         progress: ctrl.phaseProgress,
@@ -86,7 +92,10 @@ class _CravingScreenState extends State<CravingScreen> {
     ];
   }
 
-  // Üst SOS başlık ve kapatma butonu.
+  // Ekranın üstündeki SOS acil rahatlama
+  // başlığını
+  // ve sayfadan çıkış sağlayan kapatma butonunu
+  // çizer.
   Widget _buildTopHeader() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +138,8 @@ class _CravingScreenState extends State<CravingScreen> {
     );
   }
 
-  // Krizi yendim başarı ve kapatma butonu.
+  // Kullanıcı krizi başarıyla atlattığında seansı
+  // tamamlayan ve ekranı kapatan onay butonudur.
   Widget _buildWinButton(CravingController ctrl) {
     return SizedBox(
       width: double.infinity,
@@ -150,11 +160,8 @@ class _CravingScreenState extends State<CravingScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Icon(
-              Icons.check_circle_outline_rounded,
-              color: Color(0xFF022C22),
-              size: 22,
-            ),
+            Icon(Icons.check_circle_outline_rounded,
+                color: Color(0xFF022C22), size: 22),
             SizedBox(width: 8),
             Text(
               'Krizi Yendim!',

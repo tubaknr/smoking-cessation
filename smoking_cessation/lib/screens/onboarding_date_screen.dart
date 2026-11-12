@@ -12,7 +12,9 @@ import '../features/quit/quit_controller.dart';
 import '../theme/app_theme.dart';
 import 'onboarding_cost_screen.dart';
 
-// SRP: Bırakma zamanı seçim ekranı.
+// Kullanıcının sigarayı bıraktığı gün ve saati
+// seçmesini sağlayan ilk başlangıç formu
+// ekranıdır.
 class OnboardingDateScreen extends StatefulWidget {
   final QuitController quitController;
   final bool isEditing;
@@ -24,12 +26,10 @@ class OnboardingDateScreen extends StatefulWidget {
   });
 
   @override
-  State<OnboardingDateScreen> createState() =>
-      _OnboardingDateScreenState();
+  State<OnboardingDateScreen> createState() => _OnboardingDateScreenState();
 }
 
-class _OnboardingDateScreenState
-    extends State<OnboardingDateScreen> {
+class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
   late DateTime _dt;
   String? _error;
 
@@ -40,33 +40,29 @@ class _OnboardingDateScreenState
     _dt = (widget.isEditing && p != null) ? p.quitDateTime : DateTime.now();
   }
 
+  // Takvim diyalogunu açarak kullanıcının
+  // sigarayı
+  // bıraktığı geçmiş tarihi seçmesini sağlar.
   Future<void> _pickDate() async {
     final now = DateTime.now();
     final picked = await showDatePicker(
-      context: context,
-      initialDate: _dt,
-      firstDate: DateTime(2000),
-      lastDate: now,
+      context: context, initialDate: _dt,
+      firstDate: DateTime(2000), lastDate: now,
       builder: (c, w) => Theme(data: AppTheme.darkTheme, child: w!),
     );
     if (picked != null) {
       setState(() {
-        _dt = DateTime(
-          picked.year,
-          picked.month,
-          picked.day,
-          _dt.hour,
-          _dt.minute,
-        );
+        _dt = DateTime(picked.year, picked.month, picked.day, _dt.hour, _dt.minute);
         _error = null;
       });
     }
   }
 
+  // Saat seçici diyalogu açarak kullanıcının tam
+  // bırakma saat ve dakikasını girmesini sağlar.
   Future<void> _pickTime() async {
     final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(_dt),
+      context: context, initialTime: TimeOfDay.fromDateTime(_dt),
       builder: (c, w) => Theme(data: AppTheme.darkTheme, child: w!),
     );
     if (picked != null) {
@@ -75,13 +71,14 @@ class _OnboardingDateScreenState
         setState(() => _error = 'Gelecek seçilemez.');
         return;
       }
-      setState(() {
-        _dt = u;
-        _error = null;
-      });
+      setState(() { _dt = u; _error = null; });
     }
   }
 
+  // Seçilen zamanı kontrol eder; geçerliyse
+  // profili
+  // kaydeder veya tüketim formu sayfasına
+  // aktarır.
   void _onContinue() {
     if (_dt.isAfter(DateTime.now())) {
       setState(() => _error = 'Gelecek seçilemez.');
@@ -101,24 +98,23 @@ class _OnboardingDateScreenState
     ));
   }
 
+  // Tarih ve saat seçim kartını, hata uyarısını
+  // ve devam butonunu içeren sayfa düzenini
+  // kurar.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.surfaceLowest,
-      appBar: AppBar(
-        title: Text(widget.isEditing ? 'Tarih Düzenle' : 'Başlangıç'),
-      ),
+      appBar: AppBar(title: Text(widget.isEditing ? 'Tarih Düzenle' : 'Başlangıç')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Sigarayı ne zaman bıraktın?',
-                  style: AppTheme.headlineLarge),
+              const Text('Sigarayı ne zaman bıraktın?', style: AppTheme.headlineLarge),
               const SizedBox(height: 8),
-              const Text('Geçen her an ciğerlerin yenilenir.',
-                  style: AppTheme.bodyMedium),
+              const Text('Geçen her an ciğerlerin yenilenir.', style: AppTheme.bodyMedium),
               const SizedBox(height: 24),
               _buildCard(),
               if (_error != null) _buildError(),
@@ -148,11 +144,11 @@ class _OnboardingDateScreenState
             style: const TextStyle(fontWeight: FontWeight.bold)),
       );
 
+  // Bırakma tarihi ve saatinin görüntülendiği
+  // ve tıklandığında seçicileri açan karttır.
   Widget _buildCard() {
-    final d = '${_dt.day.toString().padLeft(2, '0')}.'
-        '${_dt.month.toString().padLeft(2, '0')}.${_dt.year}';
-    final t = '${_dt.hour.toString().padLeft(2, '0')}:'
-        '${_dt.minute.toString().padLeft(2, '0')}';
+    final d = '${_dt.day.toString().padLeft(2, '0')}.${_dt.month.toString().padLeft(2, '0')}.${_dt.year}';
+    final t = '${_dt.hour.toString().padLeft(2, '0')}:${_dt.minute.toString().padLeft(2, '0')}';
     return Material(
       color: AppTheme.surfaceLow,
       shape: RoundedRectangleBorder(
@@ -180,10 +176,7 @@ class _OnboardingDateScreenState
             ),
             const SizedBox(height: 8),
             OutlinedButton(
-              onPressed: () => setState(() {
-                _dt = DateTime.now();
-                _error = null;
-              }),
+              onPressed: () => setState(() { _dt = DateTime.now(); _error = null; }),
               child: const Text('Şu An İtibarıyla Bıraktım'),
             ),
           ],

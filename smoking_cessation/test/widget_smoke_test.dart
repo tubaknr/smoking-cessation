@@ -16,20 +16,17 @@ import 'package:smoking_cessation/main.dart';
 import 'package:smoking_cessation/models/user_profile.dart';
 import 'package:smoking_cessation/screens/home_shell_screen.dart';
 import 'package:smoking_cessation/screens/onboarding_date_screen.dart';
-import 'package:smoking_cessation/services/notification_service.dart';
 import 'package:smoking_cessation/services/storage_service.dart';
 
 void main() {
   late InMemoryStorageService storage;
-  late FakeNotificationService notifications;
   late QuitController quitController;
   late DiaryController diaryController;
   late CravingController cravingController;
 
   setUp(() async {
     storage = InMemoryStorageService();
-    notifications = FakeNotificationService();
-    quitController = QuitController(storage, notifications);
+    quitController = QuitController(storage);
     diaryController = DiaryController(storage);
     cravingController = CravingController();
 
@@ -87,7 +84,7 @@ void main() {
     expect(find.text('PROFİL BİLGİLERİ'), findsOneWidget);
   });
 
-  testWidgets('Bildirim ayarı değişince bildirim servisi senkronize olmalı',
+  testWidgets('Profil kaydedilince QuitController ve sayaç güncellenmeli',
       (tester) async {
     final profile = UserProfile(
       quitDateTime: DateTime.now().subtract(const Duration(days: 1)),
@@ -96,12 +93,8 @@ void main() {
       cigarettesPerPack: 20,
     );
     await quitController.saveProfile(profile);
-    expect(notifications.isDailyScheduled, isTrue);
-
-    // Bildirimi kapat
-    final updated = quitController.settings
-        .copyWith(notificationsEnabled: false);
-    await quitController.saveSettings(updated);
-    expect(notifications.isCancelled, isTrue);
+    expect(quitController.isOnboarded, isTrue);
+    expect(quitController.unsmokedCigarettes, greaterThan(0));
+    expect(quitController.moneySaved, greaterThan(0));
   });
 }

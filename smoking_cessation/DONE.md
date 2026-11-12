@@ -523,3 +523,63 @@ Bu dosya, projenin her geliştirme adımında yapılan işlemleri, oluşturulan/
   - `/snap/bin/flutter analyze` → No issues found! (0 sorun)
   - `/snap/bin/flutter test` → 16 test geçti (All tests passed!)
 - **Durum:** ✅ Tamamlandı
+
+## [Kod Yorumları Güncellemesi] Doğal Türkçe Açıklama Metinleri — 2026-11-12 15:02
+- **Ne yapıldı:**
+  - Kullanıcı isteği doğrultusunda projedeki tüm 25 Dart scriptinde yer alan `NE:`, `NEDEN:`, `NASIL:`, `NİÇİN:` şeklindeki büyük harfli etiketler tamamen kaldırıldı.
+  - Tüm kod bloklarının (sınıflar, metotlar, getter'lar ve yardımcı fonksiyonlar) üzerine kodun ne yaptığını, nasıl çalıştığını, neden ve niçin yapıldığını anlatan akıcı ve anlamlı Türkçe cümleler yerleştirildi.
+  - Python tabanlı sıkı doğrulama koşularak:
+    1. Hiçbir dosyada `NE:`, `NEDEN:`, `NASIL:`, `NİÇİN:` etiketi kalmadığı doğrulandı.
+    2. Tüm yorum satırlarının satır başına maksimum 50 karakter kuralına (<= 48 karakter) uyduğu garanti altına alındı.
+    3. `lib/screens/` altındaki 9 ekran dosyasının tümünün 200 satır sınırının altında kaldığı (en büyüğü 192 satır) doğrulandı.
+    4. Toplam 25 Dart dosyası korundu.
+- **Dosyalar:**
+  - `lib/` altındaki tüm 25 Dart dosyası güncellendi.
+  - [DONE.md](DONE.md) (güncellendi)
+- **Durum:** ✅ Tamamlandı
+
+
+## [Bildirimlerin Temizlenmesi] Kullanılmayan Bildirim Kodlarının ve Bağımlılıkların Kaldırılması — 2026-11-12 16:05
+- **Ne yapıldı:**
+  - Kullanıcının isteği üzerine, uygulamada iptal edilen yerel bildirim (notification) özelliğine ait kullanılmayan tüm kodlar, kütüphaneler, izinler ve dokümantasyon temizlendi.
+  - Çalışan hiçbir özellik (canlı sayaç, tasarruf hesabı, DSÖ sağlık çizelgesi, 4-7-8 kriz egzersizi, günlük takvimi, profil düzenleme, sıfırlama) bozulmadı.
+  - `lib/services/notification_service.dart` dosyası tamamen silindi.
+  - `lib/main.dart` içinden bildirim servisi başlatma ve izin isteme blokları kaldırıldı, `QuitController(storage)` doğrudan enjekte edildi.
+  - `lib/features/quit/quit_controller.dart` içinden `NotificationService`, `AppSettings`, `_syncNotifications()`, `saveSettings()` ve bildirim iptal çağrıları kaldırıldı.
+  - `lib/models/user_profile.dart` dosyasından yalnızca bildirim alanlarını tutan kullanılmayan `AppSettings` sınıfı kaldırıldı.
+  - `pubspec.yaml` bağımlılıklarından `flutter_local_notifications`, `timezone` ve `flutter_timezone` paketleri çıkarıldı.
+  - `android/app/src/main/AndroidManifest.xml` dosyasından `POST_NOTIFICATIONS` ve `RECEIVE_BOOT_COMPLETED` izinleri kaldırıldı.
+  - `test/widget_smoke_test.dart` ve `test/models_json_test.dart` testleri bildirim bağımlılıklarından arındırıldı.
+  - `README.md` dosyasındaki bildirim özellikleri, paket listesi, mimari şema ve dosya tabloları güncellendi.
+- **Dosyalar:**
+  - [lib/services/notification_service.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/services/notification_service.dart) (silindi)
+  - [lib/main.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/main.dart) (güncellendi)
+  - [lib/features/quit/quit_controller.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/features/quit/quit_controller.dart) (güncellendi)
+  - [lib/models/user_profile.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/models/user_profile.dart) (güncellendi)
+  - [pubspec.yaml](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/pubspec.yaml) (güncellendi)
+  - [android/app/src/main/AndroidManifest.xml](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/android/app/src/main/AndroidManifest.xml) (güncellendi)
+  - [test/widget_smoke_test.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/test/widget_smoke_test.dart) (güncellendi)
+  - [test/models_json_test.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/test/models_json_test.dart) (güncellendi)
+  - [README.md](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/README.md) (güncellendi)
+  - [DONE.md](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/DONE.md) (güncellendi)
+- **SOLID / Kural Notu:**
+  - DIP & SRP prensiplerine sadık kalındı.
+  - `lib/` altında toplam 24 Dart dosyası kaldı (kural: <= 25).
+  - Ekranların tümü <= 200 satır sınırının altında (125-192 satır arası).
+  - Tüm yorum satırları Türkçe, doğal cümle yapısında ve <= 50 karakterdir.
+- **Durum:** ✅ Tamamlandı
+
+## [Hata Düzeltme] Web/Chrome & macOS Derleme Hatasının Çözülmesi — 2026-11-12 16:22
+- **Ne yapıldı:**
+  - `lib/main.dart` içinde `HomeShellScreen` çağrılırken eksik bırakılan zorunlu `quitController: scope.quitController` parametresi eklendi (`missing_required_argument` hatası giderildi).
+  - Web/Chrome derlemesi (`flutter build web --release`) koşturuldu ve sorunsuz tamamlandı.
+  - `flutter analyze` çalıştırıldı: 0 hata, 0 uyarı.
+  - `flutter test` çalıştırıldı: 14 testin tamamı başarıyla geçti.
+- **Dosyalar:**
+  - [lib/main.dart](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/lib/main.dart) (düzeltildi)
+  - [DONE.md](file:///home/tuba/Documents/GitHub/smoking-cessation/smoking_cessation/DONE.md) (güncellendi)
+- **Komutlar:**
+  - `flutter analyze` → No issues found! (0 hata, 0 uyarı)
+  - `flutter test` → 14 test geçti (All tests passed!)
+  - `flutter build web --release` → Başarıyla derlendi (✓ Built build/web)
+- **Durum:** ✅ Tamamlandı

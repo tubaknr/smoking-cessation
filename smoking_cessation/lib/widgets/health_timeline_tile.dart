@@ -4,14 +4,20 @@
 // metrik kartları ve başlık bloklarını sunar.
 // NASIL ÇALIŞIR: Tamamlanma ve süreye göre
 // görsel düğüm ve veri kartlarını çizer.
-// SOLID: SRP - Sağlık arayüzü görsel bileşenleri.
+// SOLID: SRP - Sağlık arayüzü görsel
+// bileşenleri.
 // ========================================
 
 import 'package:flutter/material.dart';
 import '../models/health_milestone.dart';
 import '../theme/app_theme.dart';
 
-// SRP: Zaman çizelgesi satır bileşeni.
+// Sağlık zaman çizelgesi basamak bileşenidir.
+// İyileşme adımlarını dikey akışta çizmek.
+// Çizgi, onay rozeti, yüzde ve metinle
+// çizer.
+// SRP - Tekil zaman çizelgesi adımı
+// sunumu.
 class HealthTimelineTile extends StatelessWidget {
   final HealthMilestone milestone;
   final bool isCompleted;
@@ -395,7 +401,13 @@ class HealthTimelineTile extends StatelessWidget {
   }
 }
 
-// SRP: Sağlık ekranı üst biyolojik başlık kartı.
+// Sağlık ekranı üst biyolojik özet kartı.
+// Toplam kazanım sayısını ve yüzdesini
+// sunmak.
+// Kalp ikonu, tamamlanan sayısı ve oran
+// çizer.
+// Genel biyolojik iyileşme tablosunu
+// özetlemek.
 class HealthHeaderCard extends StatelessWidget {
   final int completed;
   final int total;
@@ -519,7 +531,13 @@ class HealthHeaderCard extends StatelessWidget {
   }
 }
 
-// SRP: Akciğer ve toksin ikili metrik kartı.
+// Akciğer kapasitesi ve CO seviyesi kartları.
+// Solunum ve kan dolaşımı telemetrisini
+// sunmak.
+// Geçen süreye göre kapasite artışını
+// hesaplar.
+// İki kritik biyolojik metriği yan yana
+// dizmek.
 class HealthMetricCards extends StatelessWidget {
   final Duration elapsed;
 
@@ -662,7 +680,11 @@ class HealthMetricCards extends StatelessWidget {
   }
 }
 
-// SRP: Hücresel yenilenme motivasyon kartı.
+// Hücresel yenilenme bilgilendirme kartı.
+// DSÖ ve CDC temelli bilimsel notu sunmak.
+// DNA sarmalı ikonu ve açıklama metniyle.
+// Tıbbi tavsiye olmadığını yasal olarak
+// belirtmek.
 class CellularRenewalCard extends StatelessWidget {
   const CellularRenewalCard({super.key});
 

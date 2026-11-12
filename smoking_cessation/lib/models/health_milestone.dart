@@ -8,7 +8,9 @@
 // listeye eklenir, ekran kodu değişmez.
 // ========================================
 
-// SRP: Tek bir sağlık kazanımı bilgisini tutar.
+// Sigarasız geçen süreye bağlı biyolojik bir
+// iyileşme adımını ve süre aralığını temsil
+// eder.
 class HealthMilestone {
   final String id;
   final String title;
@@ -24,8 +26,9 @@ class HealthMilestone {
     required this.endDuration,
   });
 
-  // OCP: Geriye dönük uyumlu varsayılan liste.
-  // kullanılmaz
+  // Basit ekranlar ve geriye dönük uyumluluk için
+  // tanımlanmış 5 adımlı temel kazanım
+  // listesidir.
   static const List<HealthMilestone> defaultMilestones = [
     HealthMilestone(
       id: '20_min',
@@ -64,8 +67,9 @@ class HealthMilestone {
     ),
   ];
 
-  // OCP: 8 kademeli zengin zaman çizelgesi listesi.
-  // KULLANILIR
+  // DSÖ ve CDC verilerine dayalı 8 aşamalı zengin
+  // biyolojik iyileşme adımlarını içeren ana
+  // listedir.
   static const List<HealthMilestone> timelineMilestones = [
     HealthMilestone(
       id: '20_min',

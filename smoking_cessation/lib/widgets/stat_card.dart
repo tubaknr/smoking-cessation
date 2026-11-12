@@ -11,7 +11,12 @@ import 'package:flutter/material.dart';
 import '../models/user_profile.dart';
 import '../theme/app_theme.dart';
 
-// SRP: Tekil istatistik kartı bileşeni.
+// Tekil istatistik metrik kartı bileşenidir.
+// Tasarruf, adet ve ömrü kutucukta sunmak.
+// İkon, başlık, değer ve açıklamayı
+// birleştirir.
+// Yeniden kullanılabilir (reusable)
+// bileşen.
 class StatCard extends StatelessWidget {
   final String title;
   final String value;
@@ -68,7 +73,12 @@ class StatCard extends StatelessWidget {
   }
 }
 
-// SRP: Kriz dalgası panik butonu kartı.
+// Kriz dalgası acil panik kartı ve butonu.
+// Kriz anında tek tıkla seansı başlatmak.
+// Kırmızı ışıltılı acil SOS butonunu
+// sunar.
+// Kriz ekranına en hızlı yönlendirmeyi
+// sağlamak.
 class CrisisSectionCard extends StatelessWidget {
   final VoidCallback onPanicTap;
 
@@ -225,7 +235,14 @@ class CrisisSectionCard extends StatelessWidget {
   }
 }
 
-// SRP: Zihinsel hatırlatıcı motivasyon kartı.
+// Zihinsel hatırlatıcı psikolojik telkin
+// kartı.
+// "İstek geçicidir, zarar kalıcıdır"
+// vurgusu.
+// Mor-mavi ışıltılı kart tasarımıyla
+// çizer.
+// Kullanıcının bilişsel iradesini
+// desteklemek.
 class MentalReminderCard extends StatelessWidget {
   const MentalReminderCard({super.key});
 
@@ -295,7 +312,11 @@ class MentalReminderCard extends StatelessWidget {
   }
 }
 
-// SRP: Ayarlar sayfası başlık bileşeni.
+// Ayarlar ve kutlamalar sayfası üst başlığı.
+// Sayfa kimliğini ve rozet temasını
+// tanıtmak.
+// Yeşil nokta, başlık ve alt metin çizer.
+// SRP - Başlık sunumunu ayırmak.
 class SettingsHeader extends StatelessWidget {
   const SettingsHeader({super.key});
 
@@ -341,7 +362,13 @@ class SettingsHeader extends StatelessWidget {
   }
 }
 
-// SRP: Büyük dönüm noktası kutlama kartı.
+// Büyük dönüm noktası zafer kutlama kartı.
+// 1. hafta başarısını ve kurtarılan
+// parayı övmek.
+// Kupa ikonu, başlık, açıklama ve TL
+// kutusu.
+// Kullanıcıya hak ettiği başarı ödülünü
+// hissettirmek.
 class MilestoneCelebrationCard extends StatelessWidget {
   final String title;
   final String description;
@@ -557,7 +584,13 @@ class MilestoneCelebrationCard extends StatelessWidget {
   }
 }
 
-// SRP: İyileşme rozetleri kart bileşeni.
+// İyileşme ve irade rozetleri vitrini.
+// Kazanılan rozetleri 2 sütunlu ızgarada
+// sunmak.
+// Kilitli ve açık rozetleri kartlarla
+// dizer.
+// Oyunlaştırma (gamification) ile
+// bağlılık.
 class RecoveryBadgesSection extends StatelessWidget {
   final int unlockedCount;
 
@@ -725,7 +758,12 @@ class RecoveryBadgesSection extends StatelessWidget {
   }
 }
 
-// SRP: Tekil rozet kartı bileşeni.
+// Tekil rozet kartı kutucuğu bileşeni.
+// Rozet durumu, ikon ve yüzdesini
+// göstermek.
+// Kilit durumuna göre renk ve kenarlık
+// seçer.
+// Modüler rozet bileşeni sağlamak.
 class _BadgeCard extends StatelessWidget {
   final String title;
   final String status;
@@ -898,7 +936,13 @@ class _BadgeCard extends StatelessWidget {
   }
 }
 
-// SRP: Profil bilgileri ayar kartı bileşeni.
+// Profil ve maliyet ayar kartı bileşeni.
+// Tarih ve fiyat düzenleme butonlarını
+// sunmak.
+// ListTile bileşenleri ile yönlendirme
+// yapar.
+// Düzenleme seçeneklerini derli toplu
+// tutmak.
 class SettingsProfileCard extends StatelessWidget {
   final UserProfile? profile;
   final VoidCallback onEditDate;
@@ -955,7 +999,13 @@ class SettingsProfileCard extends StatelessWidget {
   }
 }
 
-// SRP: Tüm verileri sıfırlama butonu bileşeni.
+// Tüm verileri kalıcı sıfırlama kırmızı
+// butonu.
+// Sıfırlama aksiyonunu belirgin kılmak.
+// Kırmızı kenarlıklı OutlinedButton
+// üretir.
+// Kritik aksiyonu görsel olarak izole
+// etmek.
 class SettingsResetButton extends StatelessWidget {
   final VoidCallback onReset;
 

@@ -8,7 +8,10 @@
 // ve tarih anahtarı yardımcısını barındırır.
 // ========================================
 
-// SRP: Tek bir güne ait kayıt verisini tutar.
+// Kullanıcının belirli bir gün sigara içip
+// içmediğini,
+// hissettiği kriz şiddetini ve kısa notunu
+// tutar.
 class DailyLog {
   final String date;
   final bool smokeFree;
@@ -22,7 +25,8 @@ class DailyLog {
     this.note,
   });
 
-  // Kayıt modelini JSON haritasına çevirir.
+  // Günlük kaydı cihaz hafızasına yazabilmek
+  // için standart bir JSON haritasına dönüştürür.
   Map<String, dynamic> toJson() {
     return {
       'date': date,
@@ -32,15 +36,15 @@ class DailyLog {
     };
   }
 
-  // JSON haritasından güvenle model kurar.
+  // Depodan okunan JSON verisini modele çevirir;
+  // girilen notun 200 karakter sınırını aşmasını
+  // önler.
   factory DailyLog.fromJson(Map<String, dynamic> json) {
     final rawLevel = (json['cravingLevel'] as num?)?.toInt();
     final clampedLevel = rawLevel?.clamp(1, 5);
 
     final rawNote = json['note'] as String?;
-    // not 200 karankter kuralından kısa mı uzun mu
     final isLong = (rawNote?.length ?? 0) > 200;
-    // uzunsa kısalt. ilk 200ü alır
     final truncatedNote =
         isLong ? rawNote!.substring(0, 200) : rawNote;
 
@@ -52,9 +56,9 @@ class DailyLog {
     );
   }
 
-
-// COPYWITH -- değiştirmek istediğimiz kısmı pm vererek değiştirmeye yarar 
-  // Günlük kaydı klonlayarak günceller.
+  // Mevcut kaydı değiştirmeden sadece belirtilen
+  // alanları güncelleyerek yeni bir kopya
+  // oluşturur.
   DailyLog copyWith({
     String? date,
     bool? smokeFree,
@@ -70,11 +74,16 @@ class DailyLog {
   }
 }
 
-// SRP: Tarih anahtarı ve formatlama yardımcısı.
+// Tarih nesnelerini harici kütüphane
+// kullanmadan
+// standart metin formatına çeviren yardımcı
+// sınıftır.
 class DateKey {
   DateKey._();
 
-  // DateTime nesnesini yyyy-MM-dd yapar.
+  // DateTime nesnesini yyyy-MM-dd biçiminde
+  // iki basamaklı standart bir metin anahtarına
+  // çevirir.
   static String format(DateTime dt) {
     final year = dt.year.toString().padLeft(4, '0');
     final month = dt.month.toString().padLeft(2, '0');
@@ -82,7 +91,9 @@ class DateKey {
     return '$year-$month-$day';
   }
 
-  // yyyy-MM-dd metnini DateTime nesnesine çevirir.
+  // Standart tarih metnini parçalayarak
+  // üzerinde işlem yapılabilecek DateTime nesnesi
+  // üretir.
   static DateTime parse(String dateStr) {
     final parts = dateStr.split('-');
     if (parts.length != 3) return DateTime.now();
@@ -92,12 +103,16 @@ class DateKey {
     return DateTime(y, m, d);
   }
 
-  // Verilen tarihin bugün olup olmadığını denetler.
+  // Verilen tarihin bugüne ait olup olmadığını
+  // güncel sistem tarihiyle karşılaştırarak
+  // döner.
   static bool isToday(String dateStr) {
     return dateStr == format(DateTime.now());
   }
 
-  // Tarihin gelecekte olup olmadığını denetler.
+  // Kullanıcının gelecekteki bir güne kayıt
+  // girmesini engellemek için ileri tarih
+  // kontrolü yapar.
   static bool isFuture(DateTime dt) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);

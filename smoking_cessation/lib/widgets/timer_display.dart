@@ -11,13 +11,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-// SRP: Çift halkalı canlı sayaç bileşeni.
+// Dumansız geçen süreyi çift neon halkalı bir
+// gösterge ve canlı dijital sayaçla sunan
+// bileşendir.
 class TimerDisplay extends StatelessWidget {
   final Duration elapsed;
 
   const TimerDisplay({super.key, required this.elapsed});
 
-  // Kademeli hedefe göre dış halka doluluk oranı.
+  // Kullanıcının 1 gün, 7 gün veya 1 yıl gibi
+  // uzun
+  // vadeli hedeflerine olan ilerleme oranını
+  // döner.
   double _calculateOuterProgress() {
     final sec = elapsed.inSeconds;
     if (sec <= 0) return 0.0;
@@ -39,7 +44,9 @@ class TimerDisplay extends StatelessWidget {
     return 1.0;
   }
 
-  // Günlük döngüye göre iç halka doluluk oranı.
+  // Yirmi dört saatlik günlük döngüyü temsil eden
+  // iç camgöbeği halkanın anlık doluluk oranını
+  // döner.
   double _calculateInnerProgress() {
     final sec = elapsed.inSeconds;
     if (sec <= 0) return 0.0;
@@ -51,6 +58,9 @@ class TimerDisplay extends StatelessWidget {
     return (daySec / 86400.0).clamp(0.02, 1.0);
   }
 
+  // Yeşil ışıltılı kenarlıklara sahip canlı sayaç
+  // kartının genel çerçevesini ve katmanlarını
+  // çizer.
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,6 +89,9 @@ class TimerDisplay extends StatelessWidget {
     );
   }
 
+  // Kartın üst kısmında parlayan yeşil noktalı
+  // "Sigarasız Temiz Hayat" durum rozetini
+  // üretir.
   Widget _buildBadge() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
@@ -118,6 +131,10 @@ class TimerDisplay extends StatelessWidget {
     );
   }
 
+  // Çift halkalı CustomPainter çizimi ile
+  // merkezdeki
+  // dijital sayaç metinlerini üst üste
+  // yerleştirir.
   Widget _buildDial() {
     return SizedBox(
       width: 230,
@@ -138,6 +155,9 @@ class TimerDisplay extends StatelessWidget {
     );
   }
 
+  // Kadranın tam ortasında gün, saat, dakika ve
+  // saniye rakamlarını sabit genişlikli fontla
+  // çizer.
   Widget _buildCenterContent() {
     final days = elapsed.inDays;
     final hours = (elapsed.inHours % 24).toString().padLeft(2, '0');
@@ -210,6 +230,9 @@ class TimerDisplay extends StatelessWidget {
     );
   }
 
+  // Dakika ve canlı saniye değerlerini kutucuk
+  // çip halinde gösterir; saniye kutusuna ışıltı
+  // verir.
   Widget _buildChip(String text, {required bool isSec}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -239,6 +262,10 @@ class TimerDisplay extends StatelessWidget {
     );
   }
 
+  // Karbonmonoksit gazının sıfırlandığını ve
+  // nabzın
+  // stabil olduğunu belirten alt telemetri
+  // çubuğudur.
   Widget _buildFooter() {
     return Container(
       padding: const EdgeInsets.only(top: 14),
@@ -297,7 +324,9 @@ class TimerDisplay extends StatelessWidget {
   }
 }
 
-// Çift neon halkayı çizen CustomPainter.
+// İki adet dairesel neon ilerleme yayını Canvas
+// API kullanarak donanım hızlandırmalı olarak
+// çizer.
 class _DualRingPainter extends CustomPainter {
   final double outerProgress;
   final double innerProgress;
@@ -313,21 +342,18 @@ class _DualRingPainter extends CustomPainter {
     const outerR = 94.0;
     const innerR = 76.0;
 
-    // Arka plan dış halka izi.
     final bgPaintOuter = Paint()
       ..color = const Color(0x14FFFFFF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
     canvas.drawCircle(center, outerR, bgPaintOuter);
 
-    // Arka plan iç halka izi.
     final bgPaintInner = Paint()
       ..color = const Color(0x0EFFFFFF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6;
     canvas.drawCircle(center, innerR, bgPaintInner);
 
-    // Dış neon yeşil ilerleme yayı.
     if (outerProgress > 0) {
       final outerArcPaint = Paint()
         ..color = const Color(0xFF4EDEA3)
@@ -343,7 +369,6 @@ class _DualRingPainter extends CustomPainter {
       );
     }
 
-    // İç camgöbeği ilerleme yayı.
     if (innerProgress > 0) {
       final innerArcPaint = Paint()
         ..color = const Color(0xFF4CD7F6)

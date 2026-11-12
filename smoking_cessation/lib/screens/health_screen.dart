@@ -14,12 +14,17 @@ import '../services/quit_calculator.dart';
 import '../theme/app_theme.dart';
 import '../widgets/health_timeline_tile.dart';
 
-// SRP: Sağlık kazanımları takip ekranı.
+// Bedenin sigarasız geçen zamana göre nasıl
+// iyileştiğini gösteren zaman çizelgesi
+// ekranıdır.
 class HealthScreen extends StatelessWidget {
   final QuitController quitController;
 
   const HealthScreen({super.key, required this.quitController});
 
+  // Geçen canlı süreyi dinler ve DSÖ kilometre
+  // taşlarının doluluk oranlarını hesaplayarak
+  // çizer.
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
@@ -55,7 +60,9 @@ class HealthScreen extends StatelessWidget {
     );
   }
 
-  // Zaman çizelgesi başlığı ve aktif izleme hapı.
+  // Zaman çizelgesinin başlığını ve canlı takip
+  // yapıldığını belirten rozet kapsülünü
+  // oluşturur.
   Widget _buildTimelineHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +99,9 @@ class HealthScreen extends StatelessWidget {
     );
   }
 
-  // Zaman çizelgesi satırları listesini üretir.
+  // Sekiz adet biyolojik basamağın her biri için
+  // dikey bağlantı çizgili tile bileşenlerini
+  // üretir.
   List<Widget> _buildTimelineList(
     Duration elapsed,
     List<HealthMilestone> milestones,

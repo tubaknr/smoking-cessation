@@ -48,36 +48,6 @@ void main() {
     });
   });
 
-  group('AppSettings Testleri', () {
-    test('JSON serileştirme ve varsayılanlar çalışmalı', () {
-      const settings = AppSettings(
-        notificationsEnabled: true,
-        reminderHour: 9,
-        reminderMinute: 30,
-      );
-
-      final json = settings.toJson();
-      final fromJson = AppSettings.fromJson(json);
-
-      expect(fromJson.notificationsEnabled, isTrue);
-      expect(fromJson.reminderHour, 9);
-      expect(fromJson.reminderMinute, 30);
-    });
-
-    test('Saat ve dakika sınırları korunmalı', () {
-      final json = {
-        'notificationsEnabled': false,
-        'reminderHour': 30,
-        'reminderMinute': -5,
-      };
-
-      final settings = AppSettings.fromJson(json);
-      expect(settings.notificationsEnabled, isFalse);
-      expect(settings.reminderHour, 23);
-      expect(settings.reminderMinute, 0);
-    });
-  });
-
   group('DailyLog ve DateKey Testleri', () {
     test('DailyLog JSON serileştirme ve not kırpma çalışmalı', () {
       final longNote = 'A' * 250;

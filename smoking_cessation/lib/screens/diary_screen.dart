@@ -14,7 +14,9 @@ import '../theme/app_theme.dart';
 import '../widgets/diary_calendar.dart';
 import 'diary_entry_screen.dart';
 
-// SRP: Günlük takvim ve streak ekranı.
+// Geçmiş günlerin sigarasızlık takvimini ve
+// kesintisiz gün serisini gösteren ana
+// ekrandır.
 class DiaryScreen extends StatefulWidget {
   const DiaryScreen({super.key});
 
@@ -29,6 +31,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
     1,
   );
 
+  // Takvimden seçilen gün için detaylı kriz ve
+  // not girişi sağlayan düzenleme formunu açar.
   void _onDaySelected(DateTime date, DiaryController controller) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -40,6 +44,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
+  // DiaryController'ı dinleyerek takvim
+  // günlerini,
+  // serileri ve kayıt butonunu ekranda inşa eder.
   @override
   Widget build(BuildContext context) {
     final appScope = AppScope.of(context);
@@ -62,7 +69,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  // Sayfa içerik listesini oluşturur.
+  // Sayfanın dikey akışındaki üst başlığı, hızlı
+  // kayıt kutusunu, takvimi ve seri kartını
+  // toplar.
   List<Widget> _buildContent(
     DiaryController diaryCtrl,
     int streak,
@@ -97,7 +106,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
     ];
   }
 
-  // Üst gün sayısı ve ay başlık bloğu.
+  // Toplam temiz gün sayısını ve içinde bulunulan
+  // ayı gösteren karşılama başlık bileşenidir.
   Widget _buildTopHeader(int days) {
     const monthNames = [
       'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',

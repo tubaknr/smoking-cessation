@@ -14,18 +14,27 @@ import '../widgets/stat_card.dart';
 import '../widgets/timer_display.dart';
 import 'craving_screen.dart';
 
-// SRP: Ana gösterge paneli ekranı.
+// Canlı sayaç, biriken tasarruf, içilmeyen
+// sigara
+// ve kriz dalgası kartlarını sunan ana gösterge
+// ekranıdır.
 class HomeScreen extends StatelessWidget {
   final QuitController quitController;
 
   const HomeScreen({super.key, required this.quitController});
 
+  // Panik kartındaki butona dokunulduğunda 5
+  // dakikalık
+  // acil kriz müdahale modülünü ekrana getirir.
   void _openCravingScreen(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const CravingScreen()),
     );
   }
 
+  // QuitController'ı dinleyerek saniye aktıkça
+  // canlı sayacı ve tüm telemetri kartlarını
+  // günceller.
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
@@ -49,6 +58,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Sayfanın en üstünde yer alan karşılama
+  // başlığı ve motive edici alt metin bloğudur.
   Widget _buildWelcomeHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,6 +74,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Cebinde kalan TL, kurtarılan dal sayısı ve
+  // kazanılan ömrü gösteren istatistik
+  // kartlarıdır.
   Widget _buildStatsSection() {
     final money = quitController.moneySaved.toStringAsFixed(2);
     final count = quitController.unsmokedCigarettes;

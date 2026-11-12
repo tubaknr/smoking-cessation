@@ -1,14 +1,15 @@
 // ========================================
 // DOSYA: user_profile.dart
-// NE İŞE YARAR: Kullanıcı profili ve genel
-// uygulama ayar modellerini tanımlar.
+// NE İŞE YARAR: Kullanıcının sigara bırakma
+// profil verilerini ve parametrelerini modeller.
 // NASIL ÇALIŞIR: JSON serileştirme ve
 // doğrulama metotlarıyla veri tutar.
-// SOLID: SRP - Sadece profil ve ayar
-// verilerini temsil etme görevi vardır.
+// SOLID: SRP - Sadece profil verilerini
+// temsil etme görevi vardır.
 // ========================================
 
-// SRP: Kullanıcı profil verisini tutar.
+// Kullanıcının sigarayı bıraktığı anı, günlük
+// içtiği dal sayısını ve paket ücretini saklar.
 class UserProfile {
   final DateTime quitDateTime;
   final int cigarettesPerDay;
@@ -22,7 +23,10 @@ class UserProfile {
     required this.cigarettesPerPack,
   });
 
-  // Profil verilerinin geçerliliğini denetler.
+  // Girilen verilerin geçerli olup olmadığını
+  // denetler;
+  // gelecekteki tarihleri ve sıfır fiyatı kabul
+  // etmez.
   bool get isValid {
     final now = DateTime.now();
     final dateValid = !quitDateTime.isAfter(now);
@@ -34,7 +38,8 @@ class UserProfile {
     return dateValid && countValid && priceValid && packValid;
   }
 
-  // Modeli JSON haritasına dönüştürür.
+  // Modeli cihazda metin olarak saklayabilmek
+  // için standart bir JSON haritasına dönüştürür.
   Map<String, dynamic> toJson() {
     return {
       'quitDateTime': quitDateTime.toIso8601String(),
@@ -44,7 +49,10 @@ class UserProfile {
     };
   }
 
-  // JSON haritasından güvenli nesne üretir.
+  // Cihazdan okunan JSON verisini modele
+  // dönüştürür;
+  // eksik veya bozuk alanlarda varsayılan değer
+  // atar.
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     final rawDate = json['quitDateTime']?.toString();
     final parsedDate = rawDate != null
@@ -64,7 +72,9 @@ class UserProfile {
     );
   }
 
-  // Klonlama ve alan güncelleme metodu.
+  // Nesneyi değiştirmeden sadece güncellenmek
+  // istenen alanlarıyla yeni bir kopyasını
+  // üretir.
   UserProfile copyWith({
     DateTime? quitDateTime,
     int? cigarettesPerDay,
@@ -77,56 +87,6 @@ class UserProfile {
       packPrice: packPrice ?? this.packPrice,
       cigarettesPerPack:
           cigarettesPerPack ?? this.cigarettesPerPack,
-    );
-  }
-}
-
-// SRP: Uygulama ayarları verisini tutar.
-// KULLANILMIYOR - İPTAL EDİLDİ 
-class AppSettings {
-  final bool notificationsEnabled;
-  final int reminderHour;
-  final int reminderMinute;
-
-  const AppSettings({
-    this.notificationsEnabled = true,
-    this.reminderHour = 9,
-    this.reminderMinute = 0,
-  });
-
-  // Ayarları JSON formatına çevirir.
-  Map<String, dynamic> toJson() {
-    return {
-      'notificationsEnabled': notificationsEnabled,
-      'reminderHour': reminderHour,
-      'reminderMinute': reminderMinute,
-    };
-  }
-
-  // JSON verisinden ayarları güvenle okur.
-  factory AppSettings.fromJson(Map<String, dynamic> json) {
-    final enabled = json['notificationsEnabled'] as bool? ?? true;
-    final hour = (json['reminderHour'] as num?)?.toInt() ?? 9;
-    final minute = (json['reminderMinute'] as num?)?.toInt() ?? 0;
-
-    return AppSettings(
-      notificationsEnabled: enabled,
-      reminderHour: hour.clamp(0, 23),
-      reminderMinute: minute.clamp(0, 59),
-    );
-  }
-
-  // Ayar değerlerini kopyalayarak günceller.
-  AppSettings copyWith({
-    bool? notificationsEnabled,
-    int? reminderHour,
-    int? reminderMinute,
-  }) {
-    return AppSettings(
-      notificationsEnabled:
-          notificationsEnabled ?? this.notificationsEnabled,
-      reminderHour: reminderHour ?? this.reminderHour,
-      reminderMinute: reminderMinute ?? this.reminderMinute,
     );
   }
 }

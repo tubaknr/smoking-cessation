@@ -13,7 +13,9 @@ import 'package:flutter/foundation.dart';
 import '../../models/daily_log.dart';
 import '../../services/storage_service.dart';
 
-// DIP: StorageService bağımlılığını enjekte alır.
+// Günlük sigara içmeme kayıtlarını, takvim
+// verilerini ve kesintisiz gün serisini
+// yönetir.
 class DiaryController extends ChangeNotifier {
   final StorageService _storage;
   final Map<String, DailyLog> _logs = {};
@@ -23,7 +25,9 @@ class DiaryController extends ChangeNotifier {
   Map<String, DailyLog> get logs => Map.unmodifiable(_logs);
   List<DailyLog> get allLogs => _logs.values.toList();
 
-  // Depodan kayıt listesini yükler.
+  // Depodaki tüm geçmiş kayıtları okuyarak
+  // uygulama açılışında takvim haritasını
+  // doldurur.
   Future<void> init() async {
     try {
       final jsonStr = await _storage.readString('logs');
@@ -45,16 +49,21 @@ class DiaryController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Tarihe göre günlük kaydı döner.
+  // Tarih anahtarı (yyyy-MM-dd) verilen günün
+  // mevcut kaydını döner; kayıt yoksa null döner.
   DailyLog? getLog(String dateKey) => _logs[dateKey];
 
-  // Günün temiz geçip geçmediğini döner.
+  // Belirli bir günün sigarasız geçirilip
+  // geçirilmediğini takvim renklendirmesi için
+  // döner.
   bool isSmokeFreeDay(String dateKey) {
     final log = _logs[dateKey];
     return log != null && log.smokeFree;
   }
 
-  // Bugün için hızlı temiz/içildi kaydı atar.
+  // Kullanıcının ana ekrandan tek dokunuşla
+  // bugünü
+  // içmedim olarak işaretlemesini sağlar.
   Future<void> setSmokeFreeToday(bool smokeFree) async {
     final todayKey = DateKey.format(DateTime.now());
     final existing = _logs[todayKey];
@@ -64,28 +73,32 @@ class DiaryController extends ChangeNotifier {
     await saveLog(updated);
   }
 
-  // Kayıt ekler veya mevcut olanı günceller.
+  // Yeni bir günlük kaydı ekler veya mevcut olanı
+  // güncelleyip diske kalıcı olarak yazar.
   Future<void> saveLog(DailyLog log) async {
     _logs[log.date] = log;
     await _persist();
     notifyListeners();
   }
 
-  // Belirli bir tarihin kaydını siler.
+  // Kullanıcının sildiği gün kaydını haritadan
+  // çıkartarak yerel depolamayı günceller.
   Future<void> deleteLog(String dateKey) async {
     _logs.remove(dateKey);
     await _persist();
     notifyListeners();
   }
 
-  // Tüm kayıtları temizler.
+  // Veri sıfırlama talebinde tüm günlük kayıt
+  // geçmişini bellekten ve diskten temizler.
   Future<void> clearAll() async {
     _logs.clear();
     await _storage.remove('logs');
     notifyListeners();
   }
 
-  // Kesintisiz temiz gün serisini hesaplar.
+  // Bugünden geriye doğru giderek zincirin
+  // kırılmadığı kesintisiz gün serisini hesaplar.
   int get currentStreak {
     int streak = 0;
     var checkDate = DateTime.now();
@@ -97,7 +110,6 @@ class DiaryController extends ChangeNotifier {
         streak++;
         checkDate = checkDate.subtract(const Duration(days: 1));
       } else {
-        // Bugün henüz kayıt girilmemiş olabilir.
         if (streak == 0 && DateKey.isToday(key)) {
           checkDate =
               checkDate.subtract(const Duration(days: 1));
@@ -109,7 +121,10 @@ class DiaryController extends ChangeNotifier {
     return streak;
   }
 
-  // Kayıtları JSON listesi olarak saklar.
+  // Bellekteki tüm kayıtları JSON dizisine
+  // çevirip
+  // SharedPreferences içine metin olarak
+  // kaydeder.
   Future<void> _persist() async {
     final list = _logs.values.map((l) => l.toJson()).toList();
     final jsonStr = jsonEncode(list);
