@@ -9,6 +9,7 @@
 // ========================================
 
 import 'package:flutter/material.dart';
+
 import '../models/health_milestone.dart';
 import '../theme/app_theme.dart';
 
@@ -55,9 +56,8 @@ class HealthTimelineTile extends StatelessWidget {
   // Dikey zaman çizgisi ve durum ikonu.
   Widget _buildTimelineIndicator() {
     final isCurrent = !isCompleted && progress > 0;
-    final isLocked = !isCompleted &&
-        progress == 0 &&
-        milestone.startDuration.inDays > 365;
+    final isLocked =
+        !isCompleted && progress == 0 && milestone.startDuration.inDays > 365;
 
     return Column(
       children: [
@@ -66,9 +66,7 @@ class HealthTimelineTile extends StatelessWidget {
           height: 14,
           color: isFirst
               ? Colors.transparent
-              : (isCompleted
-                  ? AppTheme.primary
-                  : const Color(0x33FFFFFF)),
+              : (isCompleted ? AppTheme.primary : const Color(0x33FFFFFF)),
         ),
         _buildNodeCircle(isCurrent, isLocked),
         Expanded(
@@ -76,9 +74,7 @@ class HealthTimelineTile extends StatelessWidget {
             width: 2,
             color: isLast
                 ? Colors.transparent
-                : (isCompleted
-                    ? AppTheme.primary
-                    : const Color(0x22FFFFFF)),
+                : (isCompleted ? AppTheme.primary : const Color(0x22FFFFFF)),
           ),
         ),
       ],
@@ -95,11 +91,7 @@ class HealthTimelineTile extends StatelessWidget {
           shape: BoxShape.circle,
           color: Color(0xFF10B981),
         ),
-        child: const Icon(
-          Icons.check_rounded,
-          size: 15,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.check_rounded, size: 15, color: Colors.white),
       );
     }
     if (isCurrent) {
@@ -109,10 +101,7 @@ class HealthTimelineTile extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: const Color(0x2606B6D4),
-          border: Border.all(
-            color: AppTheme.secondaryCyan,
-            width: 2,
-          ),
+          border: Border.all(color: AppTheme.secondaryCyan, width: 2),
         ),
         child: Center(
           child: Container(
@@ -147,9 +136,8 @@ class HealthTimelineTile extends StatelessWidget {
   // Sağ taraftaki detay kartı.
   Widget _buildContentCard() {
     final isCurrent = !isCompleted && progress > 0;
-    final isLocked = !isCompleted &&
-        progress == 0 &&
-        milestone.startDuration.inDays > 365;
+    final isLocked =
+        !isCompleted && progress == 0 && milestone.startDuration.inDays > 365;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
@@ -160,9 +148,7 @@ class HealthTimelineTile extends StatelessWidget {
         border: Border.all(
           color: isCompleted
               ? const Color(0x3310B981)
-              : (isCurrent
-                  ? const Color(0x4D06B6D4)
-                  : const Color(0x14FFFFFF)),
+              : (isCurrent ? const Color(0x4D06B6D4) : const Color(0x14FFFFFF)),
         ),
       ),
       child: Column(
@@ -215,8 +201,8 @@ class HealthTimelineTile extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : (isCurrent
-                          ? AppTheme.secondaryCyan
-                          : const Color(0xFF94A3B8)),
+                            ? AppTheme.secondaryCyan
+                            : const Color(0xFF94A3B8)),
                   letterSpacing: 0.5,
                 ),
               ),
@@ -234,10 +220,7 @@ class HealthTimelineTile extends StatelessWidget {
   Widget _buildBadge(bool isCurrent, bool isLocked) {
     if (isCompleted) {
       return Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 2,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
           color: const Color(0x2610B981),
           borderRadius: BorderRadius.circular(10),
@@ -267,10 +250,7 @@ class HealthTimelineTile extends StatelessWidget {
     }
     if (isCurrent) {
       return Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 2,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
           color: const Color(0x2606B6D4),
           borderRadius: BorderRadius.circular(10),
@@ -299,10 +279,7 @@ class HealthTimelineTile extends StatelessWidget {
       );
     }
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 2,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
         color: const Color(0x1AFFFFFF),
         borderRadius: BorderRadius.circular(10),
@@ -322,10 +299,7 @@ class HealthTimelineTile extends StatelessWidget {
   Widget _buildPercentPill(bool isCurrent, bool isLocked) {
     if (isLocked) {
       return Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 2,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
           color: const Color(0x1AFFFFFF),
           borderRadius: BorderRadius.circular(8),
@@ -339,10 +313,7 @@ class HealthTimelineTile extends StatelessWidget {
     }
     final pct = (progress * 100).toInt();
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 2,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
         color: const Color(0x1AFFFFFF),
         borderRadius: BorderRadius.circular(8),
@@ -354,9 +325,7 @@ class HealthTimelineTile extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: isCompleted
               ? AppTheme.primary
-              : (isCurrent
-                  ? AppTheme.secondaryCyan
-                  : const Color(0xFF94A3B8)),
+              : (isCurrent ? AppTheme.secondaryCyan : const Color(0xFF94A3B8)),
         ),
       ),
     );
@@ -371,9 +340,7 @@ class HealthTimelineTile extends StatelessWidget {
         minHeight: 5,
         backgroundColor: const Color(0x1AFFFFFF),
         valueColor: AlwaysStoppedAnimation<Color>(
-          isCompleted
-              ? const Color(0xFF4EDEA3)
-              : const Color(0xFF4CD7F6),
+          isCompleted ? const Color(0xFF4EDEA3) : const Color(0xFF4CD7F6),
         ),
       ),
     );
@@ -457,10 +424,7 @@ class HealthHeaderCard extends StatelessWidget {
           const Text(
             'Vücudunun sigarasız geçen her dakikadaki '
             'mucizevi onarımı',
-            style: TextStyle(
-              fontSize: 12.5,
-              color: AppTheme.onSurfaceVariant,
-            ),
+            style: TextStyle(fontSize: 12.5, color: AppTheme.onSurfaceVariant),
           ),
           const SizedBox(height: 14),
           _buildFooterRow(level),
@@ -472,10 +436,7 @@ class HealthHeaderCard extends StatelessWidget {
   // Rozet etiketi.
   Widget _buildBadge() {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0x1A10B981),
         borderRadius: BorderRadius.circular(12),
@@ -606,11 +567,7 @@ class HealthMetricCards extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 4),
-              Icon(
-                Icons.air_rounded,
-                color: AppTheme.secondaryCyan,
-                size: 18,
-              ),
+              Icon(Icons.air_rounded, color: AppTheme.secondaryCyan, size: 18),
             ],
           ),
           const SizedBox(height: 8),
@@ -625,10 +582,7 @@ class HealthMetricCards extends StatelessWidget {
           const SizedBox(height: 2),
           const Text(
             'Oksijen absorpsiyonu',
-            style: TextStyle(
-              fontSize: 11,
-              color: Color(0xFF94A3B8),
-            ),
+            style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -699,10 +653,7 @@ class HealthMetricCards extends StatelessWidget {
           const SizedBox(height: 2),
           const Text(
             'Karbonmonoksit arındı',
-            style: TextStyle(
-              fontSize: 11,
-              color: Color(0xFF94A3B8),
-            ),
+            style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
